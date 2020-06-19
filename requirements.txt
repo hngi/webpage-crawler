@@ -4,8 +4,21 @@ Django==3.0.7
 django-rest-framework==0.1.0
 djangorestframework==3.11.0
 Flask==1.1.2
+geckodriver-autoinstaller==0.1.0
 html5==0.0.9
 html5lib==1.0.1
+<<<<<<< HEAD
+=======
+idna==2.8
+ipaddr==2.2.0
+jdcal==1.4.1
+json5==0.8.5
+kiwisolver==1.2.0
+lockfile==0.12.2
+matplotlib==3.2.1
+msgpack==0.6.2
+numpy==1.18.5
+>>>>>>> 0a97da4892d134f186386240edfe1f23627fd790
 openpyxl==3.0.3
 pandas==1.0.4
 pyparsing==2.4.7
@@ -16,3 +29,4 @@ Scrapy==2.1.0
 selenium==3.141.0
 urllib3==1.25.8
 webencodings==0.5.1
+wget==3.2
