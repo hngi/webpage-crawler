@@ -17,7 +17,8 @@ urlpatterns = [
 	re_path(r'^dailytreasuryreport/(?P<year>[0-9]{4})/(?P<month>[0-9]{1,2})/(?P<date>[0-9]{1,2})/$', daily_report),
 
 	path('cron/', cronjob),
-	re_path(r'^monthlyreport/(?P<year>[0-9]{4})/$', get_months),
+	#re_path(r'^monthlyreport/(?P<year>[0-9]{4})/(?P<category>[0-9]{1,2}})/$', get_months),
+	re_path(r'^monthlyreport/(?P<year>[0-9]{4})/(?P<category>[0-9]{1,2})/$', get_months),
 
 
 	# Downloads 
