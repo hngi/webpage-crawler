@@ -12,12 +12,13 @@ urlpatterns = [
 	path('2019/treasury/monthly', treasury_2019),
 	path('2020/treasury/monthly', treasury_2020),
 
-	path('monthlyreport/<int:year>/<str:based>/<str:month>/', monthly_report),
+	# path('monthlyreport/<int:year>/<str:based>/<str:month>/', monthly_report),
 	re_path(r'^dailyreport/(?P<year>[0-9]{4})/(?P<month>[0-9]{1,2})/(?P<date>[0-9]{1,2})/$', daily_report),
 	re_path(r'^dailyreportjson/(?P<year>[0-9]{4})/(?P<month>[0-9]{1,2})/(?P<date>[0-9]{1,2})/$', daily_report_json),
 	re_path(r'^dailytreasuryreport/(?P<year>[0-9]{4})/(?P<month>[0-9]{1,2})/(?P<date>[0-9]{1,2})/$', daily_report),
 
 	path('cron/', cronjob),
+	re_path(r'^monthlyreport/(?P<year>[0-9]{4})/$', get_months),
 
 
 	# Downloads 
