@@ -640,12 +640,6 @@ def treasury_2018(request):
 @api_view(['GET'])
 def treasury_2019(request):
 	
-	"""
-	Yearly Report View
-	:param request: Year, Month, Date
-	:return: the download link for the particular day
-	"""
-
 	result = {}
 	url = f'{homepage + treasury2019}'
 	if request.method == 'GET':
@@ -733,3 +727,112 @@ def daily_treasury_report(request, year, month, date):
 		
 	except:
 		return Response("Invalid date")
+
+
+@api_view(['GET'])
+def get_months(request, year):
+
+		if int(year) == 2018:
+			url = f'{homepage + querystring_2018_monthly}'
+		elif int(year) == 2019:
+			url = f'{homepage + querystring_2019_monthly}'
+		elif int(year) == 2020:
+			url = f'{homepage + querystring_2020_monthly}'
+
+
+		r = requests.get(url, verify=False).text
+		month_dict = {"Admin":{}, "Eco":{}, "Func":{}}
+
+		soup = BeautifulSoup(r, 'lxml')
+
+		for section in soup.find('section', attrs={'class': 'sppb-section'}):
+			table = section.find_all('table')
+
+		table_rows = table[0].find_all('tr')
+		for td in table_rows:
+			table_data = td.find_all('td')
+			for i in table_data:
+							if i != None:
+								try:
+									# month_dict["Admin"].update({(table_data[0].text).split(" ")[0]: homepage + table_data[1].find('a')['href']})
+									file_name = (table_data[0].text).split(" ")[0]
+									file_link = homepage + table_data[2].find('a')['href']
+									month_dict["Admin"].update({file_name: file_link})
+
+									# rename the file, save it's extension and download
+									excel_file_name = file_name.replace(' Monthly Budget Performance', '_2020').lower()
+									excel_file_type = file_link.split('.')[-1]
+									excel_file = excel_file_name + '.' + excel_file_type
+
+									# print("Downloading...")
+									with open('static/budget/{}/adminstrative/{}'.format(year,excel_file), 'wb+') as file:
+										response = requests.get(file_link, verify=False)
+										myfile = File(file)
+										myfile.write(response.content)
+										myfile.closed
+										file.closed
+										
+								except:
+									continue
+
+
+		for section in soup.find('section', attrs={'class': 'sppb-section'}):
+			table = section.find_all('table')
+
+		table_rows = table[1].find_all('tr')
+		for td in table_rows:
+			table_data = td.find_all('td')
+			for i in table_data:
+							if i != None:
+								try:
+									# month_dict["Eco"].update({(table_data[0].text).split(" ")[0]: homepage + table_data[2].find('a')['href']})
+									file_name = (table_data[0].text).split(" ")[0]
+									file_link = homepage + table_data[2].find('a')['href']
+									month_dict["Eco"].update({file_name: file_link})
+
+									# rename the file, save it's extension and download
+									excel_file_name = file_name.replace(' Monthly Budget Performance', '_2020').lower()
+									excel_file_type = file_link.split('.')[-1]
+									excel_file = excel_file_name + '.' + excel_file_type
+
+									# print("Downloading...")
+									with open('static/budget/{}/economic/{}'.format(year,excel_file), 'wb+') as file:
+										response = requests.get(file_link, verify=False)
+										myfile = File(file)
+										myfile.write(response.content)
+										myfile.closed
+										file.closed
+								except:
+									continue
+
+
+		for section in soup.find('section', attrs={'class': 'sppb-section'}):
+			table = section.find_all('table')
+
+		table_rows = table[2].find_all('tr')
+		for td in table_rows:
+			table_data = td.find_all('td')
+			for i in table_data:
+							if i != None:
+								try:
+									# month_dict["Func"].update({(table_data[0].text).split(" ")[0]: homepage + table_data[1].find('a')['href']})
+									file_name = (table_data[0].text).split(" ")[0]
+									file_link = homepage + table_data[2].find('a')['href'] 
+									month_dict["Func"].update({file_name: file_link})
+
+									# rename the file, save it's extension and download
+									excel_file_name = file_name.replace(' Monthly Budget Performance', '_2020').lower()
+									excel_file_type = file_link.split('.')[-1]
+									excel_file = excel_file_name + '.' + excel_file_type
+
+									# print("Downloading...")
+									with open('static/budget/{}/govt_functions/{}'.format(year,excel_file), 'wb+') as file:
+										response = requests.get(file_link, verify=False)
+										myfile = File(file)
+										myfile.write(response.content)
+										myfile.closed
+										file.closed
+								except:
+									continue
+		print(month_dict['Admin'])
+		return JsonResponse(month_dict) 
