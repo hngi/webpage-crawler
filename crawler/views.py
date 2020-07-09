@@ -640,12 +640,6 @@ def treasury_2018(request):
 @api_view(['GET'])
 def treasury_2019(request):
 	
-	"""
-	Yearly Report View
-	:param request: Year, Month, Date
-	:return: the download link for the particular day
-	"""
-
 	result = {}
 	url = f'{homepage + treasury2019}'
 	if request.method == 'GET':
