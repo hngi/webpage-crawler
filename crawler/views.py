@@ -765,7 +765,7 @@ def get_months(request, year):
 									excel_file = excel_file_name + '.' + excel_file_type
 
 									# print("Downloading...")
-									with open('static/budget/{}/adminstrative/{}'.format(year,excel_file), 'wb+') as file:
+									with open('static/budget/{}/administrative/{}'.format(year,excel_file), 'wb+') as file:
 										response = requests.get(file_link, verify=False)
 										myfile = File(file)
 										myfile.write(response.content)
